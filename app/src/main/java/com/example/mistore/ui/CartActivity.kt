@@ -16,6 +16,7 @@ import com.example.mistore.R
 import com.example.mistore.adapter.CartAdapter
 import com.example.mistore.databinding.ActivityCartBinding
 import com.example.mistore.intefaces.CartUpdateListener
+import com.example.mistore.model.CartProduct
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
@@ -38,10 +39,16 @@ class CartActivity : AppCompatActivity() {
                     mainViewmodel.updateCartProductQuantity(id,newValue)
                 }
 
+                override fun onDeleteCartListener(cartProduct: CartProduct,pos:Int) {
+                    mainViewmodel.deleteCart(cartProduct)
+                    adapter.removeProduct(pos)
+                    Toast.makeText(this@CartActivity, "cart delete successfully ", Toast.LENGTH_SHORT).show()
+                }
+
                 override fun getTotal(total: Double) {
                     val decimalFormat = DecimalFormat("₹#,##0.00")
                     val formattedPrice = decimalFormat.format(total)
-                    binding.txtCartTotal.text = "Total Pay ₹$formattedPrice"
+                    binding.txtCartTotal.text = "Total Pay $formattedPrice"
                 }
 
             })

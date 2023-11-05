@@ -16,10 +16,11 @@ import com.example.mistore.model.UserCartProduct
 
 class CartAdapter(
     var context: Context,
-    var product: List<UserCartProduct>,
+    var listProduct: List<UserCartProduct> ,
     var cartUpdateListener: CartUpdateListener
 ) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 //    var total: Double = 0.0
+    var product = listProduct.toMutableList()
 
     private var total: Double =
         product.sumOf { it.productsModelItem!!.price * it.cartProduct!!.quntity }
@@ -32,7 +33,7 @@ class CartAdapter(
         var txtMinus: TextView = itemView.findViewById(R.id.txt_cart_product_minus)
         var txtPlus: TextView = itemView.findViewById(R.id.txt_cart_product_plus)
         var txtQuntity: TextView = itemView.findViewById(R.id.txt_cart_product_count)
-
+        var imgDeleteProduct:ImageView = itemView.findViewById(R.id.img_delete)
 
     }
 
@@ -46,6 +47,7 @@ class CartAdapter(
     }
 
     override fun getItemCount(): Int {
+
         return product.size
     }
 
@@ -94,8 +96,41 @@ class CartAdapter(
 
             }
         })
-        
+
         cartUpdateListener.getTotal(total)
 
+        holder.imgDeleteProduct.setOnClickListener(View.OnClickListener {
+
+
+            var quantity = product.get(position).cartProduct?.quntity
+            if (quantity!! > 0) {
+
+                var price = product.get(position).productsModelItem?.price
+                total -= (price!! * quantity!!)
+
+                cartUpdateListener.getTotal(total)
+
+            }
+
+
+
+
+            product.get(position).cartProduct?.let { it1 ->
+                cartUpdateListener.onDeleteCartListener(
+                    it1,
+                    position
+                )
+            }
+
+        })
+
+    }
+    fun removeProduct(index:Int) {
+        if (index != -1) {
+            product.removeAt(index)
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, itemCount)
+
+        }
     }
 }

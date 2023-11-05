@@ -42,4 +42,10 @@ class MainViewModel @Inject constructor(private val repository: ProductRepositor
             repository.uupdateQuantity(id,newValue)
         }
     }
+    fun deleteCart(cartProduct: CartProduct){
+        viewModelScope.launch {
+            repository.deleteCart(cartProduct)
+        }
+
+    }
 }

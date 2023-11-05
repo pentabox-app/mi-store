@@ -1,6 +1,7 @@
 package com.example.mistore.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -36,5 +37,7 @@ interface ProductDAO {
     suspend fun updateProductQuantity(productId: Int, newQuantity: Int)
 
 
+    @Delete
+    suspend fun deleteCart(cartProduct: CartProduct)
 
 }

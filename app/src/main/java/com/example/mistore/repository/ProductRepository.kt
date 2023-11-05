@@ -87,5 +87,10 @@ class ProductRepository @Inject constructor(
         productDb.getDAO().updateProductQuantity(id,newValue)
 
     }
+    suspend fun deleteCart(cartProduct: CartProduct){
+        productDb.getDAO().deleteCart(cartProduct)
+
+
+    }
 
 }

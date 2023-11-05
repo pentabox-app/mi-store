@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         })
         binding.txtCartButton.setOnClickListener(View.OnClickListener {
 
-            startActivity(Intent(this,CartActivity::class.java))
+            startActivity(Intent(this, CartActivity::class.java))
 
         })
     }
